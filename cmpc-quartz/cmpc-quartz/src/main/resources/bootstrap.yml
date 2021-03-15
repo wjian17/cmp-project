@@ -1,0 +1,81 @@
+server:
+  port: 8082
+
+spring:
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+    properties:
+      org:
+        quartz:
+#          dataSource:
+#            myDS:
+#              URL: jdbc:oracle:thin:@polarbear:1521:dev
+#              driver: oracle.jdbc.driver.OracleDriver
+#              maxConnections: 5
+#              password: quartz
+#              user: quartz
+#              validationQuery: select 0 from dual
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            clusterCheckinInterval: 20000
+#            dataSource: myDS
+            dataSource: datasource
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            isClustered: true
+            misfireThreshold: 60000
+            tablePrefix: QRTZ_
+            useProperties: false
+          scheduler:
+            instanceId: AUTO
+            instanceName: MyClusteredScheduler
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 25
+            threadPriority: 5
+  profiles:
+    active: local
+  application:
+    name: quartz
+  security:
+    user:
+      name: cmp
+      password: cmp
+  cloud:
+    config:
+      fail-fast: true
+      name: ${spring.application.name}
+      profile: ${spring.profiles.active}
+      discovery:
+        enabled: true
+        service-id: config
+
+eureka:
+  instance:
+    # eureka client 发送 serverd端 心跳
+    lease-renewal-interval-in-seconds: 5
+    # 收到心跳后，下一次心跳等待超时时间，超时移除instance
+    lease-expiration-duration-in-seconds: 10
+    # ip地址注册到服务器中心，相互注册用ip
+    prefer-ip-address: true
+    metadata-map:
+      instanceId: ${spring.application.name}-${server.port}
+#    hostname: springcloud-cmp
+#    instance-id: ${eureka.instance.hostname}:${server.port}
+  server:
+    # 清理无效节点的间隔
+    eviction-interval-timer-in-ms: 30000
+    # 自我保护配置，主要用于网络通信偶发问题
+    enable-self-preservation: false
+    # 自我保护机制阈值
+    renewal-percent-threshold: 0.5
+  client:
+    # 从 eureka服务其中获取注册实例时间间隔
+    registry-fetch-interval-seconds: 2
+    # 注册到eureka
+    register-with-eureka: true
+    # 拉去注册实例
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8761/eureka

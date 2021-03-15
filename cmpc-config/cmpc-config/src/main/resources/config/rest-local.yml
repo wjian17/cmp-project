@@ -1,0 +1,25 @@
+info:
+  app:
+    name: Rest Service
+    description: rest服务
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${db.info.username}
+    password: ${db.info.password}
+    url: jdbc:mysql://localhost:${db.info.port}/${db.rest}?characterEncoding=UTF-8&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull&useSSL=false
+
+rest:
+  ribbon:
+    # 请求连接时间。
+    ConnectTimeout: 6000
+    # 请求处理时间。
+    ReadTimeout: 8000
+    # 对所有操作都进行重试。get post
+    OkToRetryOnAllOperations: false
+    # 切换实例的重试次数。不包括首次调
+    MaxAutoRetriesNextServer: 1
+    # 对当前实例的重试次数
+    MaxAutoRetries: 1

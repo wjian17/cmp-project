@@ -1,0 +1,56 @@
+server:
+  port: 8888
+
+info:
+  app:
+    name: Config Servie
+    description: 注册中心
+
+config:
+  swagger-ui:
+    enable: false
+
+spring:
+  application:
+    name: config
+  security:
+    user:
+      name: cmp
+      password: cmp
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:config/
+
+logging:
+  config: classpath:logback.xml
+  file:
+    path: E:/cmp
+
+
+eureka:
+  instance:
+    # eureka client 发送 serverd端 心跳
+    lease-renewal-interval-in-seconds: 5
+    # 收到心跳后，下一次心跳等待超时时间，超时移除instance
+    lease-expiration-duration-in-seconds: 10
+    # ip地址注册到服务器中心，相互注册用ip
+    prefer-ip-address: true
+    metadata-map:
+      instanceId: ${spring.application.name}-${server.port}
+#    hostname: springcloud-cmp
+#    instance-id: ${eureka.instance.hostname}:${server.port}
+  client:
+    healthcheck:
+      enabled: true
+    # 从 eureka服务其中获取注册实例时间间隔
+    registry-fetch-interval-seconds: 2
+    # 注册到eureka
+    register-with-eureka: true
+    # 拉去注册实例
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@127.0.0.1:8761/eureka

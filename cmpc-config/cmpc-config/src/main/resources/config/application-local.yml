@@ -1,0 +1,244 @@
+spring:
+  datasource:
+    hikari:
+      # 最小空闲连接数
+      minimum-idle: 5
+      # 最大连接数
+      maximum-pool-size: 60
+      # 默认自动提交行为
+      auto-commit: true
+      # 最大时长，超时被释放 10 min
+      idle-timeout: 600000
+      # 连接池最长生命周期 30 min
+      max-lifetime: 1800000
+      # 连接超时设置 60s
+      connection-timeout: 60000
+
+  # Sleuth2.0.0之后, baggage的 key 必须在这里配置才能生效
+  sleuth:
+    baggage-keys:
+      - SessionId
+      - Accept-Language
+
+  main:
+    # 允许覆盖bean
+    allow-bean-definition-overriding: true
+  cache:
+    cache-names:
+      - caffeine
+    #本地缓存
+    caffeine:
+      spec: initialCapacity=50,maximumSize=500,expireAfterWrite=5s,refreshAfterWrite=7s
+    # redis缓存
+    redis:
+      key-prefix: dev
+      cache-null-values: false
+      time-to-live: 20s
+    type: caffeine
+
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+
+  flyway:
+    # 没有元数据表情况下，针对分控scheme迁移是否调用基线
+    baseline-on-migrate: true
+    # 配合 以上配置使用，用于执行v1版本
+    baseline-version: 0
+    locations: classpath:db
+    out-of-order: true
+    placeholder-prefix: "#{"
+    placeholders:
+      base: ${db.base}
+      rest: ${db.rest}
+      workflow: ${db.workflow}
+      quartz: ${db.quartz}
+      auth: ${db.auth}
+      auth_client: ${db.auth_client}
+    enabled: true
+
+  messages:
+    basename: i18n/messages,messages
+    encoding: UTF-8
+
+  http:
+    encoding:
+      charset: UTF-8
+      # 等同配置CharacterEncodingFilter
+      enabled: true
+
+  redis:
+    host: 192.168.199.130
+    port: 6379
+    #    cluster:
+    #      nodes: 127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381
+    #      max-redirects: 8
+    lettuce:
+      pool:
+        # 最大连接数
+        max-active: 8
+        # 最大阻塞等待时间
+        max-wait: 6000
+        # 最大空闲连接
+        max-idle: 8
+        # 最小空闲连接
+        min-idle: 0
+    timeout: 10000
+
+  thymeleaf:
+    prefix: classpath:view/
+    suffix: .html
+    cache: false
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  global-config:
+    # 5 雪花算法
+    id-type: 5
+    # 0：忽略 1：非null判断 2：非空判断 @TableField(strategy=FieldStrategy.IGNORED)
+    field-strategy: 1
+    # 驼峰下划线转换
+    db-column-underline: true
+    # 调试使用
+    refresh-mapper: false
+    # 逻辑删除
+    logic-delete-value: 0
+    logic-not-delete-value: 1
+    # 自定义sql注入器,逻辑删除使用 @TableLogic
+    sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+
+config:
+  swagger-ui:
+    enable: true
+    title: SWAGGER API
+    desc: SWAGGER API DESC
+    termsOfServiceUrl: localhost:8080
+    name: swagger-ui
+    email: 1274374508@qq.com
+    url: https://localhost:8080/auth
+
+db:
+  info:
+    port: 3306
+    username: root
+    password: root
+  rest: cmp_rest
+  base: cmp_base
+  workflow: cmp_workflow
+  quartz: cmp_quartz
+  auth: cmp_auth
+  auth_client: cmp_auth_client
+
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+
+#  ribbon超时配置为2000，请求超时后，该实例会重试1次，更新实例会重试1次。
+#  所以hystrix的超时时间要大于 (1 + MaxAutoRetries + MaxAutoRetriesNextServer) * ReadTimeout 比较好，具体看需求进行配置。
+#  Ribbon超时与Hystrix超时问题，为了确保Ribbon重试的时候不被熔断，我们就需要让Hystrix的超时时间大于Ribbon的超时时间，
+#  否则Hystrix命令超时后，该命令直接熔断，重试机制就没有任何意义了。
+ribbon:
+  # 切换实例的重试次数。不包括首次调
+  MaxAutoRetriesNextServer: 1
+  # 对当前实例的重试次数
+  MaxAutoRetries: 1
+  # 请求连接时间。
+  ConnectTimeout: 6000
+  # 请求处理时间。
+  ReadTimeout: 8000
+  # 对所有操作都进行重试。get post
+  OkToRetryOnAllOperations: false
+  eureka:
+    enabled: true
+  restclient:
+    enabled: true
+
+
+hystrix:
+  command:
+    # 默认配置，可指定单个方法
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          thread:
+            # 超时熔断时间
+            timeoutInMilliseconds: 24000
+      circuitBreaker:
+        # 当在配置时间窗口内达到此数量的失败后，进行短路。默认20个
+        requestVolumeThreshold: 200
+        # 短路多久以后开始尝试是否恢复，默认5s
+        sleepWindowInMilliseconds: 5000
+        # 出错百分比阈值，当达到此阈值后，开始短路。默认50%
+        errorThresholdPercentage: 50%
+      fallback:
+        isolation:
+          semaphore:
+            # 调用线程允许请求HystrixCommand.GetFallback()的最大数量，默认10。超出时将会有异常抛出，
+            # 注意：该项配置对于THREAD隔离模式也起作用
+            maxConcurrentRequests: 100
+  threadpool:
+    default:
+      # 线程池核心线程数
+      coreSize: 10
+      # 最大排队长度。默认-1，使用SynchronousQueue。其他值则使用 LinkedBlockingQueue
+      maxQueueSize: 500
+      # 排队线程数量阈值，默认为5，达到时拒绝，如果配置了该选项，队列的大小是该队列
+      queueSizeRejectionThreshold: 300
+
+feign:
+  hystrix:
+    enabled: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+      feignName:
+        # 链接超时时间
+        connectTimeout: 5000
+        # 读取超时时间
+        readTimeout: 5000
+        # 日志等级 full
+        loggerLevel: basic
+  #        # 重试
+  #        retryer: com.example.SimpleRetryer
+  #        # 拦截器
+  #        requestInterceptors[0]: com.example.FooRequestInterceptor
+  #        requestInterceptors[1]: com.example.BarRequestInterceptor
+  #        # 编码器
+  #        encoder: com.example.SimpleEncoder
+  #        # 解码器
+  #        decoder: com.example.SimpleDecoder
+  #        # 契约
+  #        contract: com.example.SimpleContract
+  compression:
+    # 开启GZIP压缩之后，Feign之间的调用通过二进制协议进行传输，
+    # 返回值需要修改为ResponseEntity<byte[]>才可以正常显示，否则会导致服务之间的调用结果乱码
+    request:
+      #开启压缩
+      enabled: true
+      mime-types: text/xml,application/xml,application/json,application/x-www-form-urlencoded,application/form-data
+      # 配置压缩数据大小的下限
+      min-request-size: 2048
+    response:
+      #开启压缩
+      enabled: true
+
