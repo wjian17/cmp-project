@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/apiController")
+@RequestMapping("/api/v1")
 public class ApiController {
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "test",method = RequestMethod.GET)
     public CmpResponse query(){
         log.info("query is running");
         return new CmpResponse();

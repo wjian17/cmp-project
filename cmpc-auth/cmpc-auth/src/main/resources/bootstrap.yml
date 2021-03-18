@@ -23,12 +23,9 @@ spring:
 config:
   oauth:
     enable: true
-  oauth-resource:
-    enable: false
-  oauth-security:
-    enable: true
   security:
     enable: false
+    ignoreUrls: /test/**
 
 
 eureka:

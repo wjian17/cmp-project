@@ -4,9 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.analizy.cmp.adapter.UserDetailsServiceAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
@@ -14,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
@@ -64,11 +61,14 @@ public class CmpAuthorizationServerConfigure extends AuthorizationServerConfigur
                 // 获取 token 的策略
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
+//                .addTokenEndpointAuthenticationFilter();
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
+//        clientDetailsService.setSelectClientDetailsSql(OauthConstant.DEFAULT_SELECT_STATEMENT);
+//        clientDetailsService.setFindClientDetailsSql(OauthConstant.DEFAULT_FIND_STATEMENT);
         clients.withClientDetails(clientDetailsService);
     }
 
@@ -84,6 +84,11 @@ public class CmpAuthorizationServerConfigure extends AuthorizationServerConfigur
                 .reuseRefreshTokens(false);
 //                .exceptionTranslator(cmpWebResponseExceptionTranslator);
     }
+
+//    @Bean
+//    public TokenEndpointAuthenticationFilter tokenEndpointAuthenticationFilter(){
+//        return new TokenEndpointAuthenticationFilter(authenticationManager,);
+//    }
 
     @Bean
     @Primary

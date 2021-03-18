@@ -11,4 +11,7 @@ public class GetCmpResponse<T> extends CmpResponse {
     public GetCmpResponse(T detail){
         this.detail = detail;
     }
+
+    public GetCmpResponse(){
+    }
 }

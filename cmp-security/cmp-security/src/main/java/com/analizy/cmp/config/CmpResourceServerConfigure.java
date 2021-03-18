@@ -5,14 +5,12 @@ import com.analizy.cmp.core.constant.HttpConstant;
 import com.analizy.cmp.core.error.OauthErrorCode;
 import com.analizy.cmp.core.resp.CmpResponse;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 
 import java.io.PrintWriter;
 
@@ -26,9 +24,14 @@ import java.io.PrintWriter;
 //@ConditionalOnProperty(prefix = "config.oauth-resource", name = "enable", havingValue = "true")
 public class CmpResourceServerConfigure extends ResourceServerConfigurerAdapter {
 
+    @Autowired
+    private RemoteTokenServices remoteTokenServices;
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        remoteTokenServices.setCheckTokenEndpointUrl("http://localhosst:8080/oauth/check_token");
         resources
+                .tokenServices(remoteTokenServices)
                 .accessDeniedHandler((req, resp, authentication) -> {
                     resp.setContentType(HttpConstant.APPLICATION_JSON);
                     CmpResponse cmpResponse = new CmpResponse(OauthErrorCode.FORBIDDEN);
@@ -60,17 +63,16 @@ public class CmpResourceServerConfigure extends ResourceServerConfigurerAdapter 
             "/webjars/**"
     };
 
+    @Value("${config.security.ignoreUrls:ignoreUrls}")
+    private String[] ignoreUrls;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/api/v1/**")
+                .antMatchers(ArrayUtil.addAll(basicIgnoreUrls,ignoreUrls)).permitAll()
+                .anyRequest()
                 .authenticated()
-                .and()
-                .formLogin()
-                .loginPage("http://localhost:8084/login")
-                .loginProcessingUrl("http://localhost:8084/oauth/login")
-//                .successForwardUrl("")
                 .and()
                 .csrf()
                 .disable();

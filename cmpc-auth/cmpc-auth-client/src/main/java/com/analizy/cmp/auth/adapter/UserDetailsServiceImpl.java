@@ -1,4 +1,4 @@
-package com.analizy.cmp.auth;
+package com.analizy.cmp.auth.adapter;
 
 import com.analizy.cmp.adapter.UserDetailsServiceAdapter;
 import com.analizy.cmp.domain.CmpGrantedAuthority;
