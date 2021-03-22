@@ -54,8 +54,8 @@ public class CmpAuthSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(ArrayUtil.addAll(basicIgnoreUrls,ignoreUrls)).permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+//                .and()
+//                .formLogin()
                 .and()
                 .csrf()
                 .disable();

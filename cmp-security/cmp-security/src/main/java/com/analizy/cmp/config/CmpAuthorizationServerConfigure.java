@@ -60,7 +60,7 @@ public class CmpAuthorizationServerConfigure extends AuthorizationServerConfigur
                 .allowFormAuthenticationForClients()
                 // 获取 token 的策略
                 .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()");
+                .checkTokenAccess("permitAll()");
 //                .addTokenEndpointAuthenticationFilter();
     }
 

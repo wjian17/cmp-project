@@ -242,3 +242,13 @@ feign:
       #开启压缩
       enabled: true
 
+security:
+  oauth2:
+    server: http://localhost:8083
+    client:
+      client-id: ${spring.application.name}
+      client-secret: ${spring.application.name}
+      access-token-uri: ${security.oauth2.server}/oauth/token
+      user-authorization-uri: ${security.oauth2.server}/oauth/authorize
+    resource:
+      token-info-uri: ${security.oauth2.server}/oauth/check_token
