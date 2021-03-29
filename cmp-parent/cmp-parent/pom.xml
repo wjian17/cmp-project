@@ -22,6 +22,8 @@
         <velocity.version>2.0</velocity.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <spring-cloud-openfeign.version>2.1.5.RELEASE</spring-cloud-openfeign.version>
+         <spring-cloud-sleuth.version>2.1.7.RELEASE</spring-cloud-sleuth.version>
         <spring-cloud.version>Greenwich.SR5</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -54,24 +56,17 @@
         <!-- sleuth 链路 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.zipkin.brave</groupId>
-            <artifactId>brave</artifactId>
-            <version>${brave.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-core</artifactId>
+            <artifactId>spring-cloud-sleuth-dependencies</artifactId>
+            <version>${spring-cloud-sleuth.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
         </dependency>
 
         <!-- server feign -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>${spring-cloud-openfeign.version}</version>
         </dependency>
 
         <!-- 熔断器 -->
@@ -107,6 +102,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.undertow</groupId>
+            <artifactId>undertow-servlet</artifactId>
         </dependency>
 
         <!-- cache -->
@@ -230,7 +231,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

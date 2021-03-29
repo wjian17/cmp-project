@@ -6,7 +6,16 @@
 
     <groupId>com.analizy.cmp</groupId>
     <artifactId>cmpc-rest-remote-api</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${cmp-version}</version>
 
 
+    <parent>
+        <groupId>com.analizy.cmp</groupId>
+        <artifactId>cmp-remote-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+
+    </dependencies>
 </project>

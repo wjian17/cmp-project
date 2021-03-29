@@ -15,13 +15,12 @@
     </parent>
 
     <dependencies>
+
         <dependency>
             <groupId>com.analizy.cmp</groupId>
-            <artifactId>cmp-core</artifactId>
+            <artifactId>cmpc-rest-remote-api</artifactId>
             <version>${cmp-version}</version>
         </dependency>
     </dependencies>
-
-
 
 </project>

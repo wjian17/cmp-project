@@ -34,11 +34,13 @@ public class CmpResourceServerConfigure extends ResourceServerConfigurerAdapter 
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Value("${config.security.resourceId:resourceId}")
+    private String resourceId;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
-                .resourceId("user_client1")
+                .resourceId(resourceId)
                 .accessDeniedHandler((req, resp, authentication) -> {
                     resp.setContentType(HttpConstant.APPLICATION_JSON);
                     CmpResponse cmpResponse = new CmpResponse(OauthErrorCode.FORBIDDEN);

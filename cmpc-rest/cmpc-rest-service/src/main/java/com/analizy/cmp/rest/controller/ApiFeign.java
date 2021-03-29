@@ -1,9 +1,10 @@
-package com.analizy.cmp.auth.controller;
+package com.analizy.cmp.rest.controller;
 
 import com.analizy.cmp.core.resp.CmpResponse;
+import com.analizy.cmp.core.resp.GetCmpResponse;
 import com.analizy.cmp.rest.remote.controller.RemoteApiFeign;
+import com.analizy.cmp.rest.remote.dto.ApiDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -11,25 +12,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 /**
  * @author: wangjian
  * @date: 2021/01/22 16:52
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/v1")
-public class ApiController {
+@RequestMapping("/remote/rest/api/v1")
+public class ApiFeign implements RemoteApiFeign {
 
-    @Autowired
-    private RemoteApiFeign remoteApiFeign;
-
+    @Override
     @RequestMapping(value = "test",method = RequestMethod.GET)
     public CmpResponse query(){
         log.info("query is running");
-        return remoteApiFeign.query();
+        return new GetCmpResponse<>(new ApiDTO(UUID.randomUUID().toString(),UUID.randomUUID().toString()));
     }
 
-
+    @Override
     @RequestMapping(value = "test1",method = RequestMethod.GET)
     public CmpResponse query1(){
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();

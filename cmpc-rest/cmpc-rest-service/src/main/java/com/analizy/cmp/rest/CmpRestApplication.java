@@ -13,9 +13,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Slf4j
 @EnableSwagger2
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.analizy.cmp.*"})
 @EnableDiscoveryClient
-@SpringBootApplication
 public class CmpRestApplication {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();

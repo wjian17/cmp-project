@@ -27,6 +27,7 @@
     <properties>
         <cmp-version>1.0-SNAPSHOT</cmp-version>
         <mbp.boot.version>2.3</mbp.boot.version>
+        <springcloud.version>2.1.5.RELEASE</springcloud.version>
         <spring-cloud.version>Greenwich.SR5</spring-cloud.version>
     </properties>
 
@@ -35,6 +36,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <version>${springcloud.version}</version>
         </dependency>
 
         <!-- web -->
@@ -60,12 +62,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
-        <!--<dependency>
-            <groupId>com.analizy.cmp</groupId>
-            <artifactId>cmp-core</artifactId>
-            <version>${cmp-version}</version>
-        </dependency>-->
+        
     </dependencies>
 
     <dependencyManagement>

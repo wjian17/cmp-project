@@ -32,6 +32,12 @@
       <version>${cmp-version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.analizy.cmp</groupId>
+      <artifactId>cmpc-rest-remote-api</artifactId>
+      <version>${cmp-version}</version>
+    </dependency>
+
   </dependencies>
 
 </project>
