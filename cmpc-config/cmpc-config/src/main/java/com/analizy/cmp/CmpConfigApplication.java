@@ -13,7 +13,7 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 @Slf4j
 @EnableConfigServer
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.analizy.cmp.*"})
 public class CmpConfigApplication {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();

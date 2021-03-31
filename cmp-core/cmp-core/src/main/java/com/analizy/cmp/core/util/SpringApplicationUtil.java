@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 不同jar包注意启动类扫描位置
  * @author: wangjian
  * @date: 2021/01/13 10:46
  */
@@ -20,6 +21,7 @@ public class SpringApplicationUtil implements ApplicationContextAware {
         return applicationContext;
     }
 
+    @Override
     public void setApplicationContext(ApplicationContext arg) throws BeansException {
         if(applicationContext==null){
             applicationContext = arg;

@@ -18,6 +18,10 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 import java.io.IOException;
 
+/**
+ * @author: wangjian
+ * @date: 2021/01/18 13:56
+ */
 @Component
 public class CmpWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
 

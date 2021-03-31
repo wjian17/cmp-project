@@ -6,7 +6,7 @@ package com.analizy.cmp.core.error;
  */
 public enum CheckErrorCode implements CmpErrorCode{
 
-    ;
+    SERVER_ERROR("SERVER_ERROR",500);
 
     private String errorCode;
 
@@ -19,12 +19,12 @@ public enum CheckErrorCode implements CmpErrorCode{
 
     @Override
     public int getHttpCode() {
-        return 0;
+        return this.httpCode;
     }
 
     @Override
     public String getErrorCode() {
-        return null;
+        return this.errorCode;
     }
 
     @Override

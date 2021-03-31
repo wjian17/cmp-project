@@ -1,4 +1,6 @@
 server:
+  servlet:
+    context-path: /${spring.application.name}
   port: 8888
 
 info:
@@ -41,6 +43,7 @@ eureka:
     prefer-ip-address: true
     metadata-map:
       instanceId: ${spring.application.name}-${server.port}
+      configPath: ${server.servlet.context-path}
 #    hostname: springcloud-cmp
 #    instance-id: ${eureka.instance.hostname}:${server.port}
   client:
@@ -53,4 +56,4 @@ eureka:
     # 拉去注册实例
     fetch-registry: true
     service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@127.0.0.1:8761/eureka
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@127.0.0.1:8761/registry/eureka

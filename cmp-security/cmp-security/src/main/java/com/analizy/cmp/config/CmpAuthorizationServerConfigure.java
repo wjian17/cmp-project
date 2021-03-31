@@ -81,8 +81,8 @@ public class CmpAuthorizationServerConfigure extends AuthorizationServerConfigur
                 .tokenEnhancer(tokenEnhancer())
                 .userDetailsService(userDetailsServiceAdapter)
                 .authenticationManager(authenticationManager)
-                .reuseRefreshTokens(false);
-//                .exceptionTranslator(cmpWebResponseExceptionTranslator);
+                .reuseRefreshTokens(false)
+                .exceptionTranslator(cmpWebResponseExceptionTranslator);
     }
 
 //    @Bean

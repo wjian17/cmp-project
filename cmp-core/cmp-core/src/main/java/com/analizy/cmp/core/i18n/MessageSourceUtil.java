@@ -6,7 +6,10 @@ import com.analizy.cmp.core.constant.HttpConstant;
 import com.analizy.cmp.core.constant.LanguageType;
 import com.analizy.cmp.core.error.CmpErrorCode;
 import com.analizy.cmp.core.util.SpringApplicationUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 
 import java.util.Locale;
 
@@ -14,10 +17,17 @@ import java.util.Locale;
  * @author: wangjian
  * @date: 2021/01/18 9:17
  */
+@Slf4j
 public class MessageSourceUtil {
 
-    public static String getMessage(String code,Object... args){
-        return SpringApplicationUtil.getApplicationContext().getBean(MessageSource.class).getMessage(code,args,getLanguage());
+    public static String getMessage(String code, Object... args) {
+        String message = null;
+        try {
+            message = SpringApplicationUtil.getApplicationContext().getBean(MessageSource.class).getMessage(code, args, getLanguage());
+        } catch (NoSuchMessageException e) {
+            log.error("资源文件未找到对应配置：{}", code);
+        }
+        return message;
     }
 
     public static String getMessage(CmpErrorCode cmpErrorCode, Object args){

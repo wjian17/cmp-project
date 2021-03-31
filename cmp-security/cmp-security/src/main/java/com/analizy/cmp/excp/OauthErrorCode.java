@@ -1,13 +1,14 @@
-package com.analizy.cmp.core.error;
+package com.analizy.cmp.excp;
 
 import cn.hutool.http.HttpStatus;
+import com.analizy.cmp.core.error.CmpErrorCode;
 import com.analizy.cmp.core.i18n.MessageSourceUtil;
 
 /**
  * @author: wangjian
  * @date: 2021/01/18 9:30
  */
-public enum OauthErrorCode implements CmpErrorCode{
+public enum OauthErrorCode implements CmpErrorCode {
 
     FORBIDDEN("HTTP.ERROR.FORBIDDEN", HttpStatus.HTTP_FORBIDDEN),
     UNAUTHORIZED("HTTP.ERROR.UNAUTHORIZED", HttpStatus.HTTP_UNAUTHORIZED);

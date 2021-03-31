@@ -11,7 +11,7 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  */
 @Slf4j
 @EnableEurekaServer
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.analizy.cmp.*"})
 public class CmpRegisterApplication {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();

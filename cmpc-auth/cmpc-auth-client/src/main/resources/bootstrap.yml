@@ -1,4 +1,6 @@
 server:
+  servlet:
+    context-path: /${spring.application.name}
   port: 8084
 
 spring:
@@ -12,13 +14,13 @@ spring:
       password: cmp
   cloud:
     config:
+      uri: http://192.168.246.211:8888/config/
       fail-fast: true
       name: ${spring.application.name}
       profile: ${spring.profiles.active}
       discovery:
         enabled: true
         service-id: config
-
 
 config:
   oauth-resource:
@@ -52,4 +54,4 @@ eureka:
     # 拉去注册实例
     fetch-registry: true
     service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8761/eureka
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8761/registry/eureka

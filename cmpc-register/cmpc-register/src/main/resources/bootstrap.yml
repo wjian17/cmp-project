@@ -1,4 +1,6 @@
 server:
+  servlet:
+    context-path: /${spring.application.name}
   port: 8761
 
 info:
@@ -51,4 +53,4 @@ eureka:
     # 拉去注册实例
     fetch-registry: false
     service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@127.0.0.1:8761/eureka
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@127.0.0.1:8761/registry/eureka

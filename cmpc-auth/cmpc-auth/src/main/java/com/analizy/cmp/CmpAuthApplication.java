@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableWebMvc
 @EnableSwagger2
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.analizy.cmp.*"})
 public class CmpAuthApplication {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();

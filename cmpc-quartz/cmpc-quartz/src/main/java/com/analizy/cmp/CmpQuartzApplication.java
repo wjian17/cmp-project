@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableScheduling
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.analizy.cmp.*"})
 public class CmpQuartzApplication {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
