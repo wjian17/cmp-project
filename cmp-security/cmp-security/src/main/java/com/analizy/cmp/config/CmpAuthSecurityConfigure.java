@@ -65,6 +65,9 @@ public class CmpAuthSecurityConfigure extends WebSecurityConfigurerAdapter {
         http
                 //设置自定义登录页和登录接口
                 .formLogin().loginProcessingUrl("/oauth/login")
+                .successHandler((req, resp, authentication) ->
+                        doOut(resp, new CmpResponse())
+                )
                 .and()
                 .authorizeRequests()
                 .antMatchers(ArrayUtil.addAll(basicIgnoreUrls,ignoreUrls)).permitAll()
