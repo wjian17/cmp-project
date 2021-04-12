@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "rest")
 public interface RemoteApiFeign {
 
-    @RequestMapping(value = "/remote/rest/api/v1/test",method = RequestMethod.GET)
+    @RequestMapping(value = "/remote/api/v1/test",method = RequestMethod.GET)
     public CmpResponse query();
 
 
-    @RequestMapping(value = "/remote/rest/api/v1/test1",method = RequestMethod.GET)
+    @RequestMapping(value = "/remote/api/v1/test1",method = RequestMethod.GET)
     public CmpResponse query1();
 }

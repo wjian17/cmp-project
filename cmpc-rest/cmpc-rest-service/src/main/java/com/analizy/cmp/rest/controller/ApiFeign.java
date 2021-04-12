@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@RequestMapping("/remote/rest/api/v1")
+@RequestMapping("/remote/api/v1")
 public class ApiFeign implements RemoteApiFeign {
 
     @Override

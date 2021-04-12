@@ -46,6 +46,7 @@ spring:
       password: cmp
   cloud:
     config:
+      uri: http://192.168.246.211:8888/config/
       fail-fast: true
       name: ${spring.application.name}
       profile: ${spring.profiles.active}
