@@ -253,7 +253,7 @@ feign:
 
 security:
   oauth2:
-    server: http://localhost:8083
+    server: http://localhost:8083/auth
     client:
       client-id: ${spring.application.name}
       client-secret: ${spring.application.name}
