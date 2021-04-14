@@ -57,17 +57,20 @@ public class CmpResourceServerConfigure extends ResourceServerConfigurerAdapter 
     }
 
     private static String[] basicIgnoreUrls = new String[]{
-            "/error",
             "/login",
+            "/actuator/**",
             "/css/**",
             "/js/**",
+            "/images/**",
+            "/webjars/**",
             "/favicon.ico",
+            "/v*/api-docs",
             "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/doc.html",
             "/api/base/v1/api-docs",
             "/oauth/**",
-            "/remote/**",
-            "/webjars/**",
-            "/api/v1/test1"
+            "/remote/**"
     };
 
     @Value("${config.security.ignoreUrls:ignoreUrls}")

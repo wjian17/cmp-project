@@ -13,7 +13,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date: 2021/01/11 11:41
  */
 @Slf4j
-@EnableSwagger2
 @EnableWebMvc
 @EnableFeignClients(basePackages = {"com.analizy.cmp.*"})
 @EnableDiscoveryClient

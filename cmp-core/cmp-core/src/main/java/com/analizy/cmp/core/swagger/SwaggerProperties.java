@@ -26,7 +26,7 @@ public class SwaggerProperties {
     @Value("${termsOfServiceUrl:termsOfServiceUrl}")
     private String termsOfServiceUrl;
 
-    @Value("${accessTokenUri:accessTokenUri}")
+    @Value("${security.oauth2.client.access-token-uri}")
     private String accessTokenUri;
 
     @Value("${name:name}")

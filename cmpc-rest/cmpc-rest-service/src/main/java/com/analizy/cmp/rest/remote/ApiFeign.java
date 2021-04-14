@@ -1,4 +1,4 @@
-package com.analizy.cmp.rest.controller;
+package com.analizy.cmp.rest.remote;
 
 import com.analizy.cmp.core.resp.CmpResponse;
 import com.analizy.cmp.core.resp.GetCmpResponse;

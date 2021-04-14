@@ -1,5 +1,6 @@
 package com.analizy.cmp.core.swagger;
 
+import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
 import com.google.common.net.HttpHeaders;
 import io.swagger.annotations.Api;
 import lombok.Data;
@@ -8,6 +9,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -29,8 +32,10 @@ import java.util.List;
  */
 @Data
 @Configuration
+@EnableSwagger2
+@EnableSwaggerBootstrapUI
 @ConditionalOnProperty(prefix = "config.swagger-ui", name = "enable", havingValue = "true")
-public class SwaggerConfig {
+public class SwaggerConfig extends WebMvcConfigurationSupport {
 
     @Bean
     @ConditionalOnClass(SwaggerProperties.class)
@@ -41,8 +46,10 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
                 .build()
+                //整合oauth2
                 .securityContexts(Collections.singletonList(securityContext()))
-                .securitySchemes(Arrays.asList(securitySchema(swaggerProperties.getAccessTokenUri()), apiKey(), apiCookieKey()));
+//                .securitySchemes(Arrays.asList(securitySchema(swaggerProperties.getAccessTokenUri()), apiKey(), apiCookieKey()));
+                .securitySchemes(Collections.singletonList(apiKey()));
     }
 
     public ApiInfo apiInfo(SwaggerProperties swaggerProperties) {
@@ -58,7 +65,7 @@ public class SwaggerConfig {
 
     @Bean
     public SecurityScheme apiKey() {
-        return new ApiKey(HttpHeaders.AUTHORIZATION, "apiKey", "header");
+        return new ApiKey(HttpHeaders.AUTHORIZATION, "Authorization", "header");
     }
 
     @Bean
@@ -76,8 +83,12 @@ public class SwaggerConfig {
         return new OAuth("oauth2", authorizationScopeList, grantTypes);
     }
 
+    /**
+     * swagger2 认证的安全上下文
+     */
     private SecurityContext securityContext() {
         return SecurityContext.builder().securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any())
                 .build();
     }
 
@@ -119,6 +130,14 @@ public class SwaggerConfig {
                 .tagsSorter(TagsSorter.ALPHA)
                 .validatorUrl(null)
                 .build();
+    }
+
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //静态资源 swagger-bootstrap-ui
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 }

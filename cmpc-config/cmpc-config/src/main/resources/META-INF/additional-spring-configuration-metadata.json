@@ -4,5 +4,10 @@
       "name": "mybatis-plus.mapper-locations",
       "type": "java.lang.String",
       "description": "Description for mybatis-plus.mapper-locations."
+    },
+    {
+      "name": "security.oauth2.client.access-token-uri",
+      "type": "java.lang.String",
+      "description": "Description for security.oauth2.client.access-token-uri."
     }
   ] }

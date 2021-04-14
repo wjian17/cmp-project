@@ -54,10 +54,19 @@ public class CmpAuthSecurityConfigure extends WebSecurityConfigurerAdapter {
 
     private static String[] basicIgnoreUrls = new String[]{
             "/actuator/**",
-            "/remote/**",
-            "/oauth/**",
+            "/login",
+            "/css/**",
+            "/js/**",
+            "/images/**",
             "/webjars/**",
-            "/login/**"
+            "/v*/api-docs",
+            "/favicon.ico",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/doc.html",
+            "/api/base/v1/api-docs",
+            "/oauth/**",
+            "/remote/**"
     };
 
     @Override
