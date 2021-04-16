@@ -31,7 +31,7 @@ public class CmpResourceServerConfigure extends ResourceServerConfigurerAdapter 
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Value("${config.security.resourceId:${spring.application.name}")
+    @Value("${spring.application.name}")
     private String resourceId;
 
     @Override
