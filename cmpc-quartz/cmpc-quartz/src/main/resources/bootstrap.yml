@@ -45,13 +45,28 @@ spring:
       name: cmp
       password: cmp
   cloud:
-    config:
-      fail-fast: true
-      name: ${spring.application.name}
-      profile: ${spring.profiles.active}
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        prefix: ${spring.application.name}
+        file-extension: yaml
+        group: config
+        namespace: d3795939-aefc-4d4e-ae01-6914bcefec34
+        shared-configs:
+          - data-id: application-${spring.profiles.active}.yaml
+            refresh: true
+            group: config
       discovery:
-        enabled: true
-        service-id: config
+        server-addr: 127.0.0.1:8848
+        group: config
+        namespace: d3795939-aefc-4d4e-ae01-6914bcefec34
+#    config:
+#      fail-fast: true
+#      name: ${spring.application.name}
+#      profile: ${spring.profiles.active}
+#      discovery:
+#        enabled: true
+#        service-id: config
 
 eureka:
   instance:
