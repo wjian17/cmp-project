@@ -6,7 +6,7 @@ package com.analizy.cmp.core.error;
  */
 public enum  WebErrorCode implements CmpErrorCode {
 
-    SERVER_ERROR("",404),
+    SERVER_ERROR("",500),
     METHOD_NOT_ALLOWED("",404);
 
     private String errorCode;
