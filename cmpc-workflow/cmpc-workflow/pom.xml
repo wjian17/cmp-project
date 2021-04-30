@@ -25,12 +25,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.analizy.cmp</groupId>
-            <artifactId>cmp-core</artifactId>
-            <version>${cmp-version}</version>
-        </dependency>
-
         <!-- flowable -->
         <dependency>
             <groupId>org.flowable</groupId>

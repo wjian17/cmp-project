@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-dependencies</artifactId>
-            <!--<version>${spring-cloud-sleuth.version}</version>-->
+            <version>${spring-cloud-sleuth.version}</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>

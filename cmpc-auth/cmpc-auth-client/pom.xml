@@ -20,11 +20,11 @@
 
   <dependencies>
 
-    <dependency>
+<!--    <dependency>
       <groupId>com.analizy.cmp</groupId>
       <artifactId>cmp-core</artifactId>
       <version>${cmp-version}</version>
-    </dependency>
+    </dependency>-->
 
     <dependency>
       <groupId>com.analizy.cmp</groupId>
