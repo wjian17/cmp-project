@@ -4,6 +4,8 @@ package com.analizy.cmp.workflow.controller;
 import cn.hutool.core.map.MapUtil;
 import com.analizy.cmp.core.resp.GetCmpResponse;
 import com.analizy.cmp.workflow.util.FlowableImgUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.flowable.engine.*;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
@@ -29,6 +31,7 @@ import java.util.Map;
  * @since 2021-01-13
  */
 @Controller
+@Api(value="工作流",tags = "工作流flowable")
 @RequestMapping("/api/v1/flowable")
 public class FlowableController {
 
@@ -55,21 +58,23 @@ public class FlowableController {
      * @param descption 描述
      */
     @ResponseBody
-    @RequestMapping(value = "/add")
-    public GetCmpResponse<String> addExpense(String userId, Integer money, String descption) {
+    @GetMapping(value = "/add")
+    @ApiOperation(value = "addExpense")
+    public GetCmpResponse<ProcessInstance> addExpense(String userId, Integer money, String descption) {
         //启动流程
         HashMap<String, Object> map = new HashMap<>();
         map.put("taskUser", userId);
         map.put("money", money);
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Expense", map);
-        return new GetCmpResponse<>(null);
+        return new GetCmpResponse(processInstance);
     }
 
     /**
      * 获取审批管理列表
      */
-    @RequestMapping(value = "/list")
+    @GetMapping(value = "/list")
     @ResponseBody
+    @ApiOperation(value = "list")
     public GetCmpResponse<Map> list(String userId) {
         List<Task> tasks = taskService.createTaskQuery().taskAssignee(userId).orderByTaskCreateTime().desc().list();
         Map<String,String> map = MapUtil.newHashMap();
@@ -84,8 +89,9 @@ public class FlowableController {
      *
      * @param taskId 任务ID
      */
-    @RequestMapping(value = "/apply")
+    @GetMapping(value = "/apply")
     @ResponseBody
+    @ApiOperation(value = "apply")
     public String apply(String taskId) {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         if (task == null) {
@@ -104,6 +110,7 @@ public class FlowableController {
      * @param processId 任务ID
      */
     @GetMapping("/{processId}")
+    @ApiOperation(value = "genProcessDiagram")
     public void genProcessDiagram(HttpServletResponse response, @PathVariable("processId") String processId) throws Exception {
         byte[] bytes = flowableImgUtil.generatorImage(processId);
         OutputStream out = null;
