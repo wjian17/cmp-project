@@ -13,35 +13,13 @@ spring:
       name: cmp
       password: cmp
   cloud:
-    nacos:
-      config:
-        server-addr: 127.0.0.1:8848
-        prefix: ${spring.application.name}
-        file-extension: yaml
-        group: config
-        namespace: d3795939-aefc-4d4e-ae01-6914bcefec34
-        shared-configs:
-          - data-id: application-${spring.profiles.active}.yaml
-            refresh: true
-            group: config
+    config:
+      fail-fast: true
+      name: ${spring.application.name}
+      profile: ${spring.profiles.active}
       discovery:
-        server-addr: 127.0.0.1:8848
-        group: config
-        namespace: d3795939-aefc-4d4e-ae01-6914bcefec34
-
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: *
-
-#    config:
-#      fail-fast: true
-#      name: ${spring.application.name}
-#      profile: ${spring.profiles.active}
-#      discovery:
-#        enabled: true
-#        service-id: config
+        enabled: true
+        service-id: config
 
 config:
   oauth-resource:
@@ -66,12 +44,12 @@ eureka:
     enable-self-preservation: false
     # 自我保护机制阈值
     renewal-percent-threshold: 0.5
-#  client:
-#    # 从 eureka服务其中获取注册实例时间间隔
-#    registry-fetch-interval-seconds: 2
-#    # 注册到eureka
-#    register-with-eureka: true
-#    # 拉去注册实例
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8761/registry/eureka
+  client:
+    # 从 eureka服务其中获取注册实例时间间隔
+    registry-fetch-interval-seconds: 2
+    # 注册到eureka
+    register-with-eureka: true
+    # 拉去注册实例
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8761/registry/eureka
