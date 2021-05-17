@@ -25,6 +25,12 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.analizy.cmp</groupId>
+            <artifactId>cmp-security</artifactId>
+            <version>${cmp-version}</version>
+        </dependency>
+
         <!-- flowable -->
         <dependency>
             <groupId>org.flowable</groupId>
@@ -65,11 +71,11 @@
             <version>${drools.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.eclipse.jdt/core -->
-        <dependency>
-            <groupId>org.eclipse.jdt</groupId>
-            <artifactId>core</artifactId>
-            <version>3.3.0-v_771</version>
-        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.eclipse.jdt/core &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.eclipse.jdt</groupId>-->
+<!--            <artifactId>core</artifactId>-->
+<!--            <version>3.3.0-v_771</version>-->
+<!--        </dependency>-->
     </dependencies>
 </project>

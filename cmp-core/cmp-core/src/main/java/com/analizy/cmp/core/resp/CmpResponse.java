@@ -1,5 +1,6 @@
 package com.analizy.cmp.core.resp;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
 import com.analizy.cmp.core.constant.HttpConstant;
 import com.analizy.cmp.core.error.CmpErrorCode;
@@ -38,7 +39,7 @@ public class CmpResponse {
     public CmpResponse(CmpErrorCode cmpErrorCode) {
         this.httpCode = cmpErrorCode.getHttpCode();
         this.code = cmpErrorCode.getErrorCode();
-        this.message = MessageSourceUtil.getMessage(cmpErrorCode.getErrorCode());
+        this.message = StrUtil.isEmpty(cmpErrorCode.getErrorMessage()) ? MessageSourceUtil.getMessage(cmpErrorCode.getErrorCode()) : cmpErrorCode.getErrorMessage();
     }
 
     public CmpResponse(Integer httpCode, String code, String message) {

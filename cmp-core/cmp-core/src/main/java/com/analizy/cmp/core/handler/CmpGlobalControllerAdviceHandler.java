@@ -2,6 +2,7 @@ package com.analizy.cmp.core.handler;
 
 import com.analizy.cmp.core.error.CheckErrorCode;
 import com.analizy.cmp.core.error.CmpErrorCode;
+import com.analizy.cmp.core.error.WebErrorCode;
 import com.analizy.cmp.core.excp.CmpException;
 import com.analizy.cmp.core.resp.CmpResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,6 @@ public class CmpGlobalControllerAdviceHandler {
     @ExceptionHandler(Exception.class)
     public CmpResponse exceptionHandler(Exception exception) {
         log.error("服务异常：cause:[{}],message:[{}]", exception.getCause(), exception.getMessage());
-        return new CmpResponse(CheckErrorCode.SERVER_ERROR);
+        return new CmpResponse(WebErrorCode.SERVER_ERROR);
     }
 }

@@ -68,7 +68,7 @@ spring:
       auth_client: ${db.auth_client}
 
   messages:
-    basename: i18n/messages,messages
+    basename: i18n/messages-core,i18n/messages-security,messages
     encoding: UTF-8
 
   http:

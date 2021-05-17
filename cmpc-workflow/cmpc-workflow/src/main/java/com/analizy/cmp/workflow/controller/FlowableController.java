@@ -2,11 +2,15 @@ package com.analizy.cmp.workflow.controller;
 
 
 import cn.hutool.core.map.MapUtil;
+import com.analizy.cmp.core.error.CheckErrorCode;
+import com.analizy.cmp.core.excp.CmpException;
 import com.analizy.cmp.core.resp.GetCmpResponse;
 import com.analizy.cmp.workflow.util.FlowableImgUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.*;
+import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,7 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -30,6 +35,7 @@ import java.util.Map;
  * @author wangjian030
  * @since 2021-01-13
  */
+@Slf4j
 @Controller
 @Api(value="工作流",tags = "工作流flowable")
 @RequestMapping("/api/v1/flowable")
@@ -66,7 +72,8 @@ public class FlowableController {
         map.put("taskUser", userId);
         map.put("money", money);
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Expense", map);
-        return new GetCmpResponse(processInstance);
+        log.info("{}==={}",processInstance.getBusinessKey(),processInstance.getProcessDefinitionId());
+        return new GetCmpResponse(processInstance.getProcessInstanceId());
     }
 
     /**
@@ -75,13 +82,9 @@ public class FlowableController {
     @GetMapping(value = "/list")
     @ResponseBody
     @ApiOperation(value = "list")
-    public GetCmpResponse<Map> list(String userId) {
+    public GetCmpResponse<List> list(String userId) {
         List<Task> tasks = taskService.createTaskQuery().taskAssignee(userId).orderByTaskCreateTime().desc().list();
-        Map<String,String> map = MapUtil.newHashMap();
-        for (Task task : tasks) {
-            map.put(task.getId(),task.toString());
-        }
-        return new GetCmpResponse<>(map);
+        return new GetCmpResponse<>(tasks.stream().map(Task::toString).collect(Collectors.toList()));
     }
 
     /**
@@ -92,16 +95,16 @@ public class FlowableController {
     @GetMapping(value = "/apply")
     @ResponseBody
     @ApiOperation(value = "apply")
-    public String apply(String taskId) {
+    public GetCmpResponse apply(String taskId) {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         if (task == null) {
-            throw new RuntimeException("流程不存在");
+            throw new CmpException(CheckErrorCode.FLOWABLE_NOT_EXISTS);
         }
         //通过审核
         HashMap<String, Object> map = new HashMap<>();
         map.put("outcome", "通过");
         taskService.complete(taskId, map);
-        return "processed ok!";
+        return new GetCmpResponse();
     }
 
     /**
