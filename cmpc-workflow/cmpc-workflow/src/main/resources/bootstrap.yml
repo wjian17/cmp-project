@@ -21,6 +21,10 @@ spring:
         enabled: true
         service-id: config
 
+config:
+  oauth-resource:
+    enable: true
+
 eureka:
   instance:
     # eureka client 发送 serverd端 心跳

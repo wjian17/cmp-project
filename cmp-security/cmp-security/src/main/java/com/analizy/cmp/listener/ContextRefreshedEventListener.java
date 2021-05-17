@@ -1,6 +1,7 @@
 package com.analizy.cmp.listener;
 
 import com.analizy.cmp.core.util.SpringApplicationUtil;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
  * @date: 2021/04/30 16:53
  */
 @Component
+@ConditionalOnProperty(prefix = "config.oauth", name = "enable", havingValue = "true")
 public class ContextRefreshedEventListener implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override

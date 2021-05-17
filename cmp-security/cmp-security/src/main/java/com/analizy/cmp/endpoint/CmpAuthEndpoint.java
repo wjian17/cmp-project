@@ -1,6 +1,7 @@
 package com.analizy.cmp.endpoint;
 
 import com.analizy.cmp.core.error.CheckErrorCode;
+import com.analizy.cmp.core.error.WebErrorCode;
 import com.analizy.cmp.core.resp.CmpResponse;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpoint;
@@ -24,6 +25,6 @@ public class CmpAuthEndpoint {
         if (error instanceof CmpResponse) {
             return (CmpResponse) error;
         }
-        return new CmpResponse(CheckErrorCode.SERVER_ERROR);
+        return new CmpResponse(WebErrorCode.SERVER_ERROR);
     }
 }

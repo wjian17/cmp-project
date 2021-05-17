@@ -6,7 +6,7 @@ package com.analizy.cmp.core.error;
  */
 public enum CheckErrorCode implements CmpErrorCode{
 
-    SERVER_ERROR("SERVER_ERROR",500);
+    FLOWABLE_NOT_EXISTS("FLOWABLE_NOT_EXISTS",400);
 
     private String errorCode;
 
